@@ -3,7 +3,6 @@
  * @description Clase encargada de modelar un Nodo
  */
 public class Node<T>{
-
     private T value;
     private Node<T> next;
 
