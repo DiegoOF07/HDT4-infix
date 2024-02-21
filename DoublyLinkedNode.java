@@ -1,5 +1,5 @@
 /**
- * @author Diego Flores & Juan Sólis
+ * @author Diego Flores y Juan Solís
  * @description Clase encargada de modelar un Nodo para una cadena doblemente encadenada
  */
 
