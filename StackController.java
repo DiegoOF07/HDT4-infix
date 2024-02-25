@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
  * @autor Diego Flores y Juan Solís
@@ -48,5 +50,65 @@ public class StackController {
             default:
                 return null;
         }
+    }
+
+    /**
+     * @description Método que determina la jerarquía de un caracter
+     * @param operator
+     * @return int
+     */
+    public int precedence(char operator){
+        if(operator=='^') return 3;
+        else if (operator == '*' || operator=='/') return 2;
+        else if (operator == '+' || operator=='-') return 1;
+        else return 0;
+    }
+
+    /**
+     * @description Método que convierte las expresiones InFix en PostFix
+     * @param infixExpressions
+     * @return ArrayList<String> expresiones postfix
+     */
+    public ArrayList<String> infixToPostfix(ArrayList<String> infixExpressions){
+        Stack<Character> stack = new Stack<>(); 
+        ArrayList<String> postfixExpressions = new ArrayList<>();
+        String output = "";
+        for (String expression : infixExpressions) {
+            stack.add('#');
+            char digits[] = expression.replace(" ", "").toCharArray();
+            for (Character character : digits) {
+                if(Character.isLetterOrDigit(character)){
+                    output+= character;
+                }else if(character.equals('(')){
+                    
+                    stack.add(character);
+                }else if(character.equals('^')){
+                   
+                    stack.add(character);
+                }else if(character.equals(')')){
+                   
+                    while(!stack.peek().equals('#') && !stack.peek().equals('(')){
+                        output += stack.pop();
+                        
+                    }
+                    stack.pop();
+                }else{
+                    if(precedence(character) > precedence(stack.peek()))stack.push(character);
+                        
+                    else{
+                        while(!stack.peek().equals('#') && precedence(character) <= precedence(stack.peek())){
+                            output += stack.pop();
+                        }
+                        stack.add(character);
+                    }
+                }
+            }
+            while (!stack.peek().equals('#')) {
+                output += stack.pop();
+            }
+            postfixExpressions.add(output);
+            output = "";
+        }
+        return postfixExpressions;
     }
 }
