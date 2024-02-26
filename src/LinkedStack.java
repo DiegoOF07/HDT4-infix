@@ -1,33 +1,28 @@
+package src;
 /**
  * @author Diego Flores y Juan Solís
  * @description Implementación de una pila utilizando una lista enlazada
  * @param <T> El tipo de dato de la pila
  */
 
-public class DoublyLinkedStack<T> implements IStack<T>{
+public class LinkedStack <T> implements IStack<T> {
+    private Node<T> top;
 
-    private DoublyLinkedNode<T> lastNode;
-    
     /**
      * @description Constructor de la clase
      */
-    public DoublyLinkedStack(){
-        this.lastNode = new DoublyLinkedNode<T>(null);
+    public LinkedStack() {
+        top = null;
     }
-    
+
     /**
      * @description Método encargado de agregar un elemento a la parte superior de la pila
      * @param value El valor que se va a agregar
      */
     public void push(T value) {
-        if(lastNode.getValue()!=null){
-            DoublyLinkedNode<T> current = new DoublyLinkedNode<T>(value);
-            lastNode.setNext(current);
-            current.setPrevious(lastNode);
-            lastNode = current;
-        }else{
-            lastNode.setValue(value);
-        }
+        Node<T> newNode = new Node<>(value);
+        newNode.setNext(top);
+        top = newNode;
     }
 
     /**
@@ -35,9 +30,10 @@ public class DoublyLinkedStack<T> implements IStack<T>{
      * @return El elemento en la parte superior de la pila o null en caso de estar vacía
      */
     public T pop() {
-        if(lastNode.getValue()!=null){
-            lastNode=lastNode.getPrevious();
-            return lastNode.getNext().getValue();
+        if (top != null) {
+            T value = top.getValue();
+            top = top.getNext();
+            return value;
         }
         return null;
     }
@@ -47,8 +43,8 @@ public class DoublyLinkedStack<T> implements IStack<T>{
      * @return El elemento en la parte superior de la pila o null en caso de estar vacía
      */
     public T peek() {
-        if(lastNode.getValue()!=null){
-            return lastNode.getValue();
+        if (top != null) {
+            return top.getValue();
         }
         return null;
     }

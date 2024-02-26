@@ -1,3 +1,4 @@
+package src;
 /**
  * @author Diego Flores & Juan Sólis
  * @description Clase encargada de modelar un Nodo

@@ -1,27 +1,34 @@
+package src;
 /**
  * @author Diego Flores y Juan Solís
  * @description Implementación de una pila utilizando una lista enlazada
  * @param <T> El tipo de dato de la pila
  */
 
-public class LinkedStack <T> implements IStack<T> {
-    private Node<T> top;
+public class DoublyLinkedStack<T> implements IStack<T>{
 
+    private DoublyLinkedNode<T> lastNode;
+    
     /**
      * @description Constructor de la clase
      */
-    public LinkedStack() {
-        top = null;
+    public DoublyLinkedStack(){
+        this.lastNode = new DoublyLinkedNode<T>(null);
     }
-
+    
     /**
      * @description Método encargado de agregar un elemento a la parte superior de la pila
      * @param value El valor que se va a agregar
      */
     public void push(T value) {
-        Node<T> newNode = new Node<>(value);
-        newNode.setNext(top);
-        top = newNode;
+        if(lastNode.getValue()!=null){
+            DoublyLinkedNode<T> current = new DoublyLinkedNode<T>(value);
+            lastNode.setNext(current);
+            current.setPrevious(lastNode);
+            lastNode = current;
+        }else{
+            lastNode.setValue(value);
+        }
     }
 
     /**
@@ -29,10 +36,9 @@ public class LinkedStack <T> implements IStack<T> {
      * @return El elemento en la parte superior de la pila o null en caso de estar vacía
      */
     public T pop() {
-        if (top != null) {
-            T value = top.getValue();
-            top = top.getNext();
-            return value;
+        if(lastNode.getValue()!=null){
+            lastNode=lastNode.getPrevious();
+            return lastNode.getNext().getValue();
         }
         return null;
     }
@@ -42,8 +48,8 @@ public class LinkedStack <T> implements IStack<T> {
      * @return El elemento en la parte superior de la pila o null en caso de estar vacía
      */
     public T peek() {
-        if (top != null) {
-            return top.getValue();
+        if(lastNode.getValue()!=null){
+            return lastNode.getValue();
         }
         return null;
     }

@@ -1,3 +1,4 @@
+package src;
 /**
  * @author Diego Flores y Juan Solís
  * @creationDate 23/02/2024
