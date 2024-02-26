@@ -36,4 +36,15 @@ public class LinkedStack <T> implements IStack<T> {
         }
         return null;
     }
+
+    /**
+     * @description Retorna el elemento que se encuentra en la parte superior de la pila sin eliminarlo
+     * @return El elemento en la parte superior de la pila o null en caso de estar vacía
+     */
+    public T peek() {
+        if (top != null) {
+            return top.getValue();
+        }
+        return null;
+    }
 }

@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        StackController stackController = new StackController();
 
         System.out.println("\nPROGRAMA PARA EVALUAR EXPRESIONES INFIX");
         System.out.println("1. ArrayList");
@@ -15,12 +16,13 @@ public class Main {
         System.out.println("3. Lista");
         System.out.print("Seleccione la implementación del stack: ");
         String stackSelected = sc.nextLine();
+        stackController.factoryCreateStack(stackSelected);
 
-        IStack<String> stack = StackController.createStack(stackSelected);
-        if (stack != null) {
-            // Program
-        } else {
-            System.out.println("Asegurese de seleccionar una opción válida para la implementación del stack");
+        try {
+            System.out.println("(Puede ingresar varias expresiones infix en el archivo dando saltos de línea)");
+            stackController.manageOperations();
+        } catch (Exception e) {
+            System.out.println("Ocurrió un error al realizar la operación");
         }
 
         sc.close();

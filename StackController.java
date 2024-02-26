@@ -1,6 +1,6 @@
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Stack;
 
 /**
  * @autor Diego Flores y Juan Solís
@@ -11,28 +11,38 @@ public class StackController {
     /**
      * @description Método encargado de crear una instancia de la pila
      * @param stackSelected El tipo de pila a crear
-     * @return Una instancia de la pila o null en caso de haber seleccionado una opción inválida
      */
-    public static IStack<String> createStack(String stackSelected) {
+    
+    IStack<Character> stackInfixPostfix;
+    IStack<String> stackPostfixResult;
+    Reader reader = new Reader("datos.txt");
+    boolean tipo = true;
+
+    public void factoryCreateStack(String stackSelected) {
         switch (stackSelected) {
             case "1":
-                System.out.println("Se ha creado una pila con ArrayList");
-                return new ArrayListStack<>();
+                System.out.println("Las pilas se trabajaran con la implementación de ArrayList");
+                stackInfixPostfix = new ArrayListStack<>();
+                stackPostfixResult = new ArrayListStack<>();
+                break;
             case "2":
-                System.out.println("Se ha creado una pila con Vector");
-                return new VectorStack<>();
+                System.out.println("Las pilas se trabajaran con la implementación de Vector");
+                stackInfixPostfix = new VectorStack<>();
+                stackPostfixResult = new VectorStack<>();
+                break;
             case "3":
-                return selectListImplementation();
+                tipo = false;
+                selectListImplementation();
+                break;
             default:
-                return null;
+                System.out.println("Opción inválida");
         }
     }
 
     /**
      * @description Método encargado de seleccionar la implementación de la lista (encadenada o doblemente encadenada)
-     * @return Una instancia de la lista seleccionada o null en caso de haber seleccionado una opción inválida
      */
-    private static IStack<String> selectListImplementation() {
+    private void selectListImplementation() {
         System.out.println("\n1. Simplemente encadenada");
         System.out.println("2. Doblemente encadenada");
         System.out.print("Seleccione la implementación de la lista: ");
@@ -42,13 +52,17 @@ public class StackController {
 
         switch (listSelected) {
             case "1":
-                System.out.println("Se ha creado una pila con lista simplemente encadenada");
-                return new LinkedStack<>();
+                System.out.println("Las pilas se trabajaran con la implementación de lista simplemente encadenada");
+                stackInfixPostfix = new LinkedStack<>();
+                stackPostfixResult = new LinkedStack<>();
+                break;
             case "2":
-                System.out.println("Se ha creado una pila con lista doblemente encadenada");
-                return new DoublyLinkedStack<>();
+                System.out.println("Las pilas se trabajaran con la implementación de lista doblemente encadenada");
+                stackInfixPostfix = new DoublyLinkedStack<>();
+                stackPostfixResult = new DoublyLinkedStack<>();
+                break;
             default:
-                return null;
+                System.out.println("Opción inválida");
         }
     }
 
@@ -70,45 +84,97 @@ public class StackController {
      * @return ArrayList<String> expresiones postfix
      */
     public ArrayList<String> infixToPostfix(ArrayList<String> infixExpressions){
-        Stack<Character> stack = new Stack<>(); 
         ArrayList<String> postfixExpressions = new ArrayList<>();
         String output = "";
         for (String expression : infixExpressions) {
-            stack.add('#');
+            stackInfixPostfix.push('#');
             char digits[] = expression.replace(" ", "").toCharArray();
+
             for (Character character : digits) {
                 if(Character.isLetterOrDigit(character)){
                     output+= character;
+
                 }else if(character.equals('(')){
-                    
-                    stack.add(character);
+                    stackInfixPostfix.push(character);
+
                 }else if(character.equals('^')){
                    
-                    stack.add(character);
+                    stackInfixPostfix.push(character);
                 }else if(character.equals(')')){
                    
-                    while(!stack.peek().equals('#') && !stack.peek().equals('(')){
-                        output += stack.pop();
+                    while(!stackInfixPostfix.peek().equals('#') && !stackInfixPostfix.peek().equals('(')){
+                        output += stackInfixPostfix.pop();
                         
                     }
-                    stack.pop();
+                    stackInfixPostfix.pop();
+
                 }else{
-                    if(precedence(character) > precedence(stack.peek()))stack.push(character);
+                    if(precedence(character) > precedence(stackInfixPostfix.peek()))stackInfixPostfix.push(character);
                         
                     else{
-                        while(!stack.peek().equals('#') && precedence(character) <= precedence(stack.peek())){
-                            output += stack.pop();
+                        while(!stackInfixPostfix.peek().equals('#') && precedence(character) <= precedence(stackInfixPostfix.peek())){
+                            output += stackInfixPostfix.pop();
                         }
-                        stack.add(character);
+                        stackInfixPostfix.push(character);
                     }
                 }
             }
-            while (!stack.peek().equals('#')) {
-                output += stack.pop();
+
+            while (!stackInfixPostfix.peek().equals('#')) {
+                output += stackInfixPostfix.pop();
             }
             postfixExpressions.add(output);
             output = "";
         }
         return postfixExpressions;
+    }
+
+    /**
+     * @throws Exception
+     * @description Método encargado de utilizar las lineas del archivo de texto para identificar las expresiones postfix y mostrar el resultado
+     */
+    public void manageOperations() throws Exception{
+        File fileReader = new File("datos.txt");
+        if(fileReader.exists()){
+            for (String expresion : infixToPostfix(reader.read())) {
+                char digits[] = expresion.replace(" ", "").toCharArray();
+                boolean expresionValida = true;
+
+                System.out.print("\nExpresión: " + expresion);
+
+                if (digits.length < 3) {
+                    System.out.println("\nResultado: La expresión es muy corta como para mostrar un resultado");
+                    continue;
+                }
+
+                for(int i = 0; i<digits.length; i++){
+                    stackPostfixResult.push(String.valueOf(digits[i]));
+                    if(digits[i] == '+' || digits[i] == '-' || digits[i] == '*' || digits[i] == '/'){
+                        try {
+                            stackPostfixResult.pop();
+                            Calculator calculatorInstance = Calculator.getInstance();
+                            int newValue = calculatorInstance.calculate(digits[i], Integer.parseInt(stackPostfixResult.pop()), Integer.parseInt(stackPostfixResult.pop()));
+                            stackPostfixResult.push(Integer.toString(newValue));
+                        } catch (Exception e) {
+                            expresionValida = false;
+                        }
+                    }
+                }
+
+                if (tipo) {
+                    if (expresionValida) {
+                        System.out.println("\nResultado: " + Integer.parseInt(stackPostfixResult.pop()));
+                    } else {
+                        System.out.println("\nResultado: La expresión postfix no es válida");
+                    }
+                } else {
+                    System.out.println("\nSe implementó una lista");
+                }
+                
+            }
+            
+        } else {
+            System.out.println("\nNo sé encontró el archivo datos.txt, agreguelo a la carpeta de OurCalculator");
+        } 
     }
 }

@@ -37,4 +37,15 @@ public class VectorStack<T> implements IStack<T> {
         }
         return null;
     }
+
+    /**
+     * @description Retorna el elemento que se encuentra en la parte superior de la pila sin eliminarlo
+     * @return El elemento en la parte superior de la pila o null si está se encuentra vacía
+     */
+    public T peek() {
+        if (!stack.isEmpty()) {
+            return stack.get(stack.size() - 1);
+        }
+        return null;
+    }
 }

@@ -62,7 +62,7 @@ public class Calculator {
      * @return La resta de los dos números enteros
      */
     public int subtract(int a, int b) {
-        return a - b;
+        return b - a;
     }
 
     /**
@@ -85,8 +85,8 @@ public class Calculator {
      * @throws IllegalArgumentException Si se intenta realizar una división entre 0
      */
     public int divide(int a, int b) {
-        if (b != 0) {
-            double c = a / b;
+        if (a != 0) {
+            double c = b / a;
             return (int) Math.round(c);
         } else {
             System.out.println("\nResultado: No se puede realizar una división entre 0");

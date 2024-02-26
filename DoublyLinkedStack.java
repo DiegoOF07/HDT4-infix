@@ -19,7 +19,6 @@ public class DoublyLinkedStack<T> implements IStack<T>{
      * @description Método encargado de agregar un elemento a la parte superior de la pila
      * @param value El valor que se va a agregar
      */
-    @Override
     public void push(T value) {
         if(lastNode.getValue()!=null){
             DoublyLinkedNode<T> current = new DoublyLinkedNode<T>(value);
@@ -35,7 +34,6 @@ public class DoublyLinkedStack<T> implements IStack<T>{
      * @description Elimina y devuelve el elemento de la parte superior de la pila
      * @return El elemento en la parte superior de la pila o null en caso de estar vacía
      */
-    @Override
     public T pop() {
         if(lastNode.getValue()!=null){
             lastNode=lastNode.getPrevious();
@@ -43,5 +41,15 @@ public class DoublyLinkedStack<T> implements IStack<T>{
         }
         return null;
     }
-}
 
+    /**
+     * @description Retorna el elemento que se encuentra en la parte superior de la pila sin eliminarlo
+     * @return El elemento en la parte superior de la pila o null en caso de estar vacía
+     */
+    public T peek() {
+        if(lastNode.getValue()!=null){
+            return lastNode.getValue();
+        }
+        return null;
+    }
+}

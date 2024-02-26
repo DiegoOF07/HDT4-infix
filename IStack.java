@@ -16,4 +16,10 @@
     * @return T
     */
     public T pop();
+
+    /**
+     * Retorna el elemento que se encuentra en la parte superior de la pila sin eliminarlo
+     * @return T
+     */
+    T peek();
 }
