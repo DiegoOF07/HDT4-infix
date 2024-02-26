@@ -10,13 +10,13 @@ package src;
     * @description Agrega un elemento a la parte superior de la pila
     * @param value
     */
-    public void push(T value);
+    void push(T value);
 
     /**
     * @description Elimina y retorna el elemento que se encuentra en la parte superior de la pila
     * @return T
     */
-    public T pop();
+    T pop();
 
     /**
      * Retorna el elemento que se encuentra en la parte superior de la pila sin eliminarlo

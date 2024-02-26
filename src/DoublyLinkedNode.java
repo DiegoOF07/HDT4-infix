@@ -4,12 +4,12 @@ package src;
  * @description Clase encargada de modelar un Nodo para una cadena doblemente encadenada
  */
 
-public class DoublyLinkedNode <T> implements IStack<T>{
+public class DoublyLinkedNode <T> {
     private T value;
     private DoublyLinkedNode<T> next;
     private DoublyLinkedNode<T> previous;
 
-    /*
+    /**
      * @description Constructor de la clase
      * @param value El valor del nodo
      */
@@ -65,42 +65,5 @@ public class DoublyLinkedNode <T> implements IStack<T>{
      */
     public void setPrevious(DoublyLinkedNode<T> previous) {
         this.previous = previous;
-    }
-
-    /**
-     * @description Método encargado de agregar un elemento a la parte superior de la pila
-     * @param value El valor que se va a agregar
-     */
-    public void push(T value) {
-        if(this.value!=null){
-            DoublyLinkedNode<T> current = new DoublyLinkedNode<T>(value);
-            this.setNext(current);
-            current.setPrevious(this);
-        }else{
-            this.setValue(value);
-        }
-    }
-
-    /**
-     * @description Elimina y devuelve el elemento de la parte superior de la pila
-     * @return El elemento en la parte superior de la pila o null en caso de estar vacía
-     */
-    public T pop() {
-        if(this.value!=null){
-            this.setPrevious(this.getPrevious().getPrevious());
-            return this.getNext().getValue();
-        }
-        return null;
-    }
-
-    /**
-     * @description Retorna el elemento que se encuentra en la parte superior de la pila sin eliminarlo
-     * @return El elemento en la parte superior de la pila o null en caso de estar vacía
-     */
-    public T peek() {
-        if(this.value!=null){
-            return this.getValue();
-        }
-        return null;
     }
 }

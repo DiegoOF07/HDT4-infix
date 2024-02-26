@@ -14,10 +14,10 @@ public class StackController {
      * @param stackSelected El tipo de pila a crear
      */
     
-    IStack<Character> stackInfixPostfix;
-    IStack<String> stackPostfixResult;
-    Reader reader = new Reader("datos.txt");
-    boolean tipo = true;
+    private IStack<Character> stackInfixPostfix;
+    private IStack<String> stackPostfixResult;
+    private Reader reader = new Reader("datos.txt");
+    private boolean tipo = true;
 
     public void factoryCreateStack(String stackSelected) {
         switch (stackSelected) {

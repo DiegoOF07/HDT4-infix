@@ -28,7 +28,7 @@ public class CalculatorTest {
     @Test
     public void testCorrectCalculateSubtractOperation() {
         Calculator calculator = Calculator.getInstance();
-        int operationResult = calculator.subtract(8, 3);
+        int operationResult = calculator.subtract(3, 8);
         assertEquals(5, operationResult);
     }
 
@@ -50,7 +50,7 @@ public class CalculatorTest {
     @Test
     public void testIncorrectCalculateDivideOperation() {
         Calculator calculator = Calculator.getInstance();
-        int operationResult = calculator.divide(9, 3);
+        int operationResult = calculator.divide(3, 9);
         assertEquals(4, operationResult);
     }
 }
