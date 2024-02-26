@@ -24,6 +24,8 @@ public class Main {
             stackController.manageOperations();
         } catch (Exception e) {
             System.out.println("Ocurrió un error al realizar la operación");
+            System.out.println(e.getMessage());
+            System.out.println(e);
         }
 
         sc.close();

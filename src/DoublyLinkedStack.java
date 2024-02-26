@@ -36,9 +36,13 @@ public class DoublyLinkedStack<T> implements IStack<T>{
      * @return El elemento en la parte superior de la pila o null en caso de estar vacía
      */
     public T pop() {
-        if(lastNode.getValue()!=null){
-            lastNode=lastNode.getPrevious();
-            return lastNode.getNext().getValue();
+        if(lastNode!=null){
+            if(lastNode.getPrevious()==null){
+                return lastNode.getValue();
+            }else{
+                lastNode=lastNode.getPrevious();
+                return lastNode.getNext().getValue();
+            }
         }
         return null;
     }

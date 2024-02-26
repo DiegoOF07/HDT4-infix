@@ -169,7 +169,7 @@ public class StackController {
                         System.out.println("\nResultado: La expresión postfix no es válida");
                     }
                 } else {
-                    System.out.println("\nSe implementó una lista");
+                    System.out.println("\nResultado: " + Integer.parseInt(stackPostfixResult.pop()));
                 }
                 
             }
